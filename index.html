@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <!-- adding reference firebase.js -->
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <!-- Jquery support -->  
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+  </head>
+  <body>
+    
+    <div id='mensajesDiv'></div>
+      
+    <input type='text' id='nombreInput' placeholder='Nombre'>
+    <input type='text' id='mensajeInput' placeholder='Mensaje'>  
+    <script>
+      //supporting data reference Firebase
+      var datos = new Firebase('https://supportservice.firebaseio.com/');
+      
+        $('#mensajeInput').keypress(function (e) {
+            if (e.keyCode == 13) {
+                var nombre = $('#nombreInput').val();
+                var mensaje = $('#mensajeInput').val();
+                //datos.set('Usuario ' + nombre + 'mensaje ' + mensaje );
+                //datos.set({nombre: nombre, mensaje: mensaje}); //writing objects
+                datos.push({nombre: nombre, mensaje: mensaje});
+                $('#mensajeInput').val('');
+            }
+        });
+        //callback
+        datos.on('child_added', function(snapshot) {
+  		    var mensaje = snapshot.val();
+            mostratSoporte(mensaje.nombre, mensaje.mensaje);
+		});
+        //show messages
+        function mostratSoporte(nombre, mensaje) {
+            $('<div/>').text(mensaje).prepend($('<em/>').text(nombre+': ')).appendTo($('#mensajesDiv'));
+            $('#mensajesDiv')[0].scrollTop = $('#mensajesDiv')[0].scrollHeight;
+      };
+    </script>
+  </body>
+</html>
