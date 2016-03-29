@@ -28,10 +28,10 @@
         //callback
         datos.on('child_added', function(snapshot) {
   		    var mensaje = snapshot.val();
-            mostratSoporte(mensaje.nombre, mensaje.mensaje);
+            mostrarSoporte(mensaje.nombre, mensaje.mensaje);
 		});
         //show messages
-        function mostratSoporte(nombre, mensaje) {
+        function mostrarSoporte(nombre, mensaje) {
             $('<div/>').text(mensaje).prepend($('<em/>').text(nombre+': ')).appendTo($('#mensajesDiv'));
             $('#mensajesDiv')[0].scrollTop = $('#mensajesDiv')[0].scrollHeight;
       };
